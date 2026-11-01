@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendBlitz AI - Ignite Your Content, Go Viral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0B0F19',
+                        cardbg: '#131D31',
+                        bordercolor: '#1E293B',
+                        primaryblue: '#3B82F6',
+                        primarypurple: '#9333EA',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #60A5FA 0%, #C084FC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #3B82F6 0%, #9333EA 100%);
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-darkbg text-slate-100 font-sans antialiased flex justify-center items-center min-h-screen m-0 p-0">
+
+    <!-- Mobile Frame Simulator Wrapper -->
+    <div class="w-full max-w-md h-[100vh] sm:h-[880px] sm:rounded-3xl bg-darkbg sm:border-4 sm:border-slate-800 flex flex-col shadow-2xl overflow-hidden relative">
+
+        <!-- Top Header Bar -->
+        <header class="px-5 py-4 bg-cardbg border-b border-bordercolor flex justify-between items-center z-10">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center shadow-lg shadow-purple-500/30">
+                    <i class="fa-solid fa-bolt text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">TrendBlitz AI</h1>
+                    <p class="text-[10px] text-slate-400 tracking-wide">Ignite Your Content, Go Viral.</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="switchTab('profile')" class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition">
+                    <i class="fa-solid fa-user-gear text-sm"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dynamic Viewport Container -->
+        <main id="main-viewport" class="flex-1 overflow-y-auto pb-20 p-4 space-y-4">
+            <!-- Dynamically injected active view -->
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="absolute bottom-0 left-0 right-0 h-16 bg-cardbg/90 backdrop-blur-md border-t border-bordercolor flex justify-around items-center px-2 z-20">
+            <button onclick="switchTab('chat')" id="nav-chat" class="flex flex-col items-center justify-center flex-1 py-1 text-primaryblue transition">
+                <i class="fa-solid fa-comments text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">AI Chat</span>
+            </button>
+            <button onclick="switchTab('youtube')" id="nav-youtube" class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-200 transition">
+                <i class="fa-brands fa-youtube text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">YT Shorts</span>
+            </button>
+            <button onclick="switchTab('gta')" id="nav-gta" class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-200 transition">
+                <i class="fa-solid fa-gamepad text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">GTA 6 AI</span>
+            </button>
+            <button onclick="switchTab('image')" id="nav-image" class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-200 transition">
+                <i class="fa-solid fa-image text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">Image/Video</span>
+            </button>
+            <button onclick="switchTab('tools')" id="nav-tools" class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-200 transition">
+                <i class="fa-solid fa-toolbox text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">Hub</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Script Controller -->
+    <script>
+        let currentTab = 'chat';
+        let chatMessages = [
+            { sender: 'ai', text: 'Namaste Varun! TrendBlitz AI ready hai. Images aur 9:16 Shorts video generation ke liye "Image/Video" tab par click karein.' }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => { switchTab('chat'); });
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['chat', 'youtube', 'gta', 'image', 'tools', 'profile'].forEach(t => {
+                const el = document.getElementById(`nav-${t}`);
+                if(el) {
+                    if(t === tab) {
+                        el.classList.remove('text-slate-400');
+                        el.classList.add('text-primaryblue');
+                    } else {
+                        el.classList.remove('text-primaryblue');
+                        el.classList.add('text-slate-400');
+                    }
+                }
+            });
+
+            const viewport = document.getElementById('main-viewport');
+            viewport.innerHTML = '';
+
+            if (tab === 'chat') renderChatView(viewport);
+            else if (tab === 'youtube') renderYouTubeView(viewport);
+            else if (tab === 'gta') renderGTAView(viewport);
+            else if (tab === 'image') renderImageView(viewport);
+            else if (tab === 'tools') renderToolsView(viewport);
+            else if (tab === 'profile') renderProfileView(viewport);
+        }
+
+        function renderChatView(container) {
+            container.innerHTML = `
+                <div class="flex flex-col h-full justify-between space-y-4">
+                    <div class="flex items-center justify-between bg-cardbg p-3 rounded-xl border border-bordercolor">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+                            <span class="text-xs font-semibold text-slate-300">TrendBlitz Assistant Online</span>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">Fast Node</span>
+                    </div>
+                    
+                    <div id="chat-stream" class="flex-1 overflow-y-auto space-y-3 pr-1">
+                        ${chatMessages.map(m => `
+                            <div class="flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}">
+                                <div class="max-w-[85%] p-3 rounded-2xl text-sm ${m.sender === 'user' ? 'gradient-bg text-white rounded-br-none' : 'bg-cardbg border border-bordercolor text-slate-200 rounded-bl-none'}">
+                                    <p>${m.text}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex items-center space-x-2 bg-cardbg p-2 rounded-xl border border-bordercolor">
+                        <input id="chat-input" type="text" placeholder="Ask anything in Hindi/English..." class="flex-1 bg-transparent border-none text-sm text-slate-100 focus:outline-none px-2" onkeypress="if(event.key==='Enter') sendChatMessage()">
+                        <button onclick="sendChatMessage()" class="w-9 h-9 rounded-lg gradient-bg flex items-center justify-center text-white shadow-md"><i class="fa-solid fa-paper-plane text-xs"></i></button>
+                    </div>
+                </div>
+            `;
+            scrollToBottom('chat-stream');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const val = input.value.trim();
+            if(!val) return;
+            chatMessages.push({ sender: 'user', text: val });
+            input.value = '';
+            renderChatView(document.getElementById('main-viewport'));
+
+            setTimeout(() => {
+                chatMessages.push({ sender: 'ai', text: `Aapka sawaal "${val}" mil gaya hai! Video shorts aur images generate karne ke liye Image/Video studio use karein.` });
+                renderChatView(document.getElementById('main-viewport'));
+            }, 500);
+        }
+
+        function renderYouTubeView(container) {
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="bg-cardbg p-4 rounded-2xl border border-bordercolor space-y-3">
+                        <h2 class="text-sm font-bold flex items-center text-blue-400"><i class="fa-brands fa-youtube mr-2 text-red-500"></i> YouTube Shorts Optimizer</h2>
+                        <input id="yt-topic" type="text" placeholder="e.g., GTA 6 Car Stunt" class="w-full bg-darkbg border border-bordercolor rounded-xl p-3 text-sm text-slate-200 focus:outline-none">
+                        <button onclick="generateYTContent()" class="w-full py-3 rounded-xl gradient-bg text-white font-semibold text-sm">Generate Meta & Tags</button>
+                    </div>
+                    <div id="yt-output" class="space-y-3"></div>
+                </div>
+            `;
+        }
+
+        function generateYTContent() {
+            const topic = document.getElementById('yt-topic').value || 'Gaming Short';
+            document.getElementById('yt-output').innerHTML = `
+                <div class="bg-cardbg p-4 rounded-2xl border border-bordercolor space-y-3">
+                    <span class="text-xs font-semibold text-purple-400">🔥 Viral Title</span>
+                    <p class="text-sm font-bold text-slate-100">🚨 INSANE ${topic}! Must Watch #shorts #viral</p>
+                    <hr class="border-bordercolor">
+                    <span class="text-xs font-semibold text-purple-400">#️⃣ Hashtags</span>
+                    <p class="text-xs text-blue-300 font-mono">#TrendBlitzAI #GamingShorts #ViralReels #ShortsFeed</p>
+                </div>
+            `;
+        }
+
+        function renderGTAView(container) {
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="bg-cardbg p-4 rounded-2xl border border-bordercolor space-y-3">
+                        <h2 class="text-sm font-bold flex items-center text-purple-400"><i class="fa-solid fa-gamepad mr-2 text-primaryblue"></i> GTA 6 AI Video Prompts</h2>
+                        <select id="gta-scene" class="w-full bg-darkbg border border-bordercolor rounded-xl p-3 text-sm text-slate-200 focus:outline-none">
+                            <option>Neon Lights & Vice City Supercar Drift</option>
+                            <option>Lucia & Jason Beach Sunset Shootout</option>
+                            <option>High Speed Helicopter Police Chase</option>
+                        </select>
+                        <button onclick="generateGTAPrompt()" class="w-full py-3 rounded-xl gradient-bg text-white font-semibold text-sm">Create Prompt</button>
+                    </div>
+                    <div id="gta-output"></div>
+                </div>
+            `;
+        }
+
+        function generateGTAPrompt() {
+            const scene = document.getElementById('gta-scene').value;
+            document.getElementById('gta-output').innerHTML = `
+                <div class="bg-cardbg p-4 rounded-2xl border border-bordercolor space-y-2">
+                    <span class="text-xs font-semibold text-green-400">✨ 9:16 Vertical Prompt Ready</span>
+                    <p class="text-xs font-mono bg-darkbg p-3 rounded-xl text-slate-300 border border-bordercolor">Cinematic shot, ${scene}, Unreal Engine 5, ray-traced neon, 9:16 aspect ratio --ar 9:16</p>
+                </div>
+            `;
+        }
+
+        function renderImageView(container) {
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="bg-cardbg p-4 rounded-2xl border border-bordercolor space-y-3">
+                        <h2 class="text-sm font-bold text-blue-400"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Fast Image & Video Studio</h2>
+                        <input id="media-prompt" type="text" placeholder="Enter prompt (e.g., Cyberpunk City)..." class="w-full bg-darkbg border border-bordercolor rounded-xl p-3 text-sm text-slate-200 focus:outline-none">
+                        
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="generateLiveImage()" class="py-2.5 rounded-xl gradient-bg text-white text-xs font-semibold shadow-md"><i class="fa-solid fa-image mr-1"></i> Generate Image</button>
+                            <button onclick="generateLiveVideoConcept()" class="py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-md"><i class="fa-solid fa-video mr-1"></i> Video Shorts Frame</button>
+                        </div>
+                    </div>
+                    <div id="media-output" class="w-full min-h-[220px] bg-cardbg border border-bordercolor rounded-2xl flex flex-col items-center justify-center text-slate-500 p-4">
+                        <i class="fa-solid fa-clapperboard text-4xl mb-2 text-slate-600"></i>
+                        <span class="text-xs text-center">Your generated image or video concept will appear here instantly</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateLiveImage() {
+            const prompt = document.getElementById('media-prompt').value || 'Cyberpunk City Neon';
+            const out = document.getElementById('media-output');
+            out.innerHTML = `<div class="text-primaryblue text-xs flex items-center"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Rendering High-Speed Image...</div>`;
+            
+            setTimeout(() => {
+                const encoded = encodeURIComponent(prompt + ", vertical shorts cover 9:16");
+                out.innerHTML = `
+                    <div class="relative w-full rounded-xl overflow-hidden border border-bordercolor shadow-lg space-y-2">
+                        <img src="https://image.pollinations.ai/prompt/${encoded}?width=540&height=960&nologo=true" class="w-full h-64 object-cover rounded-xl" alt="AI Generated">
+                        <div class="flex justify-between items-center px-1">
+                            <span class="text-[10px] text-slate-400 truncate max-w-[200px]">${prompt}</span>
+                            <a href="https://image.pollinations.ai/prompt/${encoded}?width=540&height=960&nologo=true" target="_blank" class="px-2.5 py-1 bg-blue-600 text-white text-[10px] rounded-lg">Open Full</a>
+                        </div>
+                    </div>
+                `;
+            }, 300);
+        }
+
+        function generateLiveVideoConcept() {
+            const prompt = document.getElementById('media-prompt').value || 'GTA 6 High Speed Chase';
+            const out = document.getElementById('media-output');
+            out.innerHTML = `
+                <div class="w-full bg-darkbg p-3 rounded-xl border border-bordercolor space-y-3 text-left">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-purple-400">🎬 9:16 Video Animation Blueprint</span>
+                        <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">Ready for Sora/Runway</span>
+                    </div>
+                    <p class="text-xs text-slate-200 font-mono bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                        Prompt: ${prompt}, hyper-realistic 4k 60fps video action sequence, smooth camera pan, vertical 9:16 aspect ratio.
+                    </p>
+                    <div class="w-full h-32 rounded-lg bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
+                        <i class="fa-solid fa-circle-play text-4xl text-white opacity-80 animate-pulse"></i>
+                        <span class="absolute bottom-2 text-[10px] text-slate-300">Preview Frame Simulated</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderToolsView(container) {
+            container.innerHTML = `
+                <div class="space-y-3">
+                    <h2 class="text-sm font-bold text-slate-200">🚀 Business & Monetization Hub</h2>
+                    <div class="bg-cardbg p-4 rounded-2xl border border-bordercolor space-y-2">
+                        <h3 class="text-xs font-bold text-white">🎬 3D Animation & Kids Music Assistant</h3>
+                        <p class="text-xs text-slate-400">Generate cute 3D cartoon animal character dance scripts and storyboard prompts.</p>
+                        <button onclick="alert('Kids Animation Prompt generated!')" class="mt-2 w-full py-2 bg-slate-800 text-xs rounded-xl text-blue-400 font-medium">Generate Storyboard</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProfileView(container) {
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="bg-cardbg p-5 rounded-2xl border border-bordercolor text-center space-y-3">
+                        <div class="w-16 h-16 rounded-full gradient-bg mx-auto flex items-center text-white text-2xl font-bold justify-center shadow-xl">VK</div>
+                        <div>
+                            <h2 class="text-sm font-bold text-white">Varun Kumar Serohiwal</h2>
+                            <p class="text-xs text-slate-400">YouTube Creator (@gtr-6-p7u)</p>
+                        </div>
+                        <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">Google AI Plus Active</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function scrollToBottom(id) {
+            const el = document.getElementById(id);
+            if(el) el.scrollTop = el.scrollHeight;
+        }
+    </script>
+</body>
+</html>
